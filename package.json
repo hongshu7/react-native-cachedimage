@@ -1,0 +1,35 @@
+{
+  "name": "react-native-cachedimage",
+  "main": "CachedImage.js",
+  "version": "0.1.1",
+  "author": {
+    "name": "lhs168"
+  },
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lhs168/react-native-cachedimage.git"
+  },
+  "dependencies": {
+    "loadash": "^1.0.0",
+    "crypto-js": "^3.1.9-1",
+    "url-parse": "^1.1.9",
+    "react-native-fetch-blob": "^0.10.8"
+  },
+  "description": "cached image for React Native",
+  "devDependencies": {},
+  "directories": {},
+  "homepage": "https://github.com/lhs168/react-native-cachedimage",
+  "keywords": [
+    "react-native-cachedimage",
+    "react-native",
+    "ios",
+    "android",
+    "cachedimage",
+    "image"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
