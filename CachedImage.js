@@ -93,7 +93,6 @@ const CachedImage = React.createClass({
                     networkAvailable: isConnected
                 });
             }).done();
-
         this.processSource(this.props.source);
     },
 
@@ -121,22 +120,23 @@ const CachedImage = React.createClass({
             // try to get the image path from cache
             ImageCacheProvider.getCachedImagePath(url, options)
                 // try to put the image in cache if
-                .catch(() => ImageCacheProvider.cacheImage(url, options, this.props.resolveHeaders))
+                .catch(() => {
+                    ImageCacheProvider.cacheImage(url, options, this.props.resolveHeaders)
+                        .catch(err => {
+                            this.safeSetState({
+                                isLoading: false,
+                                isBreak: true,
+                                cachedImagePath: null
+                            });
+                        });
+                })
                 .then(cachedImagePath => {
                     this.safeSetState({
                         isLoading: false,
                         isBreak: false,
                         cachedImagePath
                     });
-                })
-                .catch(err => {
-                    this.safeSetState({
-                        isLoading: false,
-                        isBreak: true,
-                        cachedImagePath: null
-                    });
-                })
-                .done();
+                });
             this.safeSetState({
                 isLoading: true
             });
