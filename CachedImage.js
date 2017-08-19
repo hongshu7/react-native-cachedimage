@@ -93,6 +93,7 @@ const CachedImage = React.createClass({
                     networkAvailable: isConnected
                 });
             }).done();
+        //console.log('cache image componentWillMount');
         this.processSource(this.props.source);
     },
 
@@ -103,6 +104,7 @@ const CachedImage = React.createClass({
 
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.source, nextProps.source)) {
+            //console.log('cache image componentWillReceiveProps');
             this.processSource(nextProps.source);
         }
     },
@@ -119,24 +121,29 @@ const CachedImage = React.createClass({
             const options = _.pick(this.props, ['useQueryParamsInCacheKey', 'cacheGroup']);
             // try to get the image path from cache
             ImageCacheProvider.getCachedImagePath(url, options)
-                // try to put the image in cache if
-                .catch(() => {
-                    ImageCacheProvider.cacheImage(url, options, this.props.resolveHeaders)
-                        .catch(err => {
-                            this.safeSetState({
-                                isLoading: false,
-                                isBreak: true,
-                                cachedImagePath: null
-                            });
-                        });
-                })
                 .then(cachedImagePath => {
+                    // image cached
                     this.safeSetState({
                         isLoading: false,
                         isBreak: false,
                         cachedImagePath
                     });
-                });
+                })
+                .catch(() => {
+                    // try to put the image in cache if not exists
+                    ImageCacheProvider.cacheImage(url, options, this.props.resolveHeaders)
+                        .catch(err => {
+                            //console.log('cache image download failed:'+url);
+                            this.safeSetState({
+                                isLoading: false,
+                                isBreak: true,
+                                cachedImagePath: null
+                            });
+                        })
+                        .done();
+                })
+                .done();
+                
             this.safeSetState({
                 isLoading: true
             });
@@ -230,5 +237,7 @@ CachedImage.getSize = function getSize(uri, success, failure, options) {
         Image.getSize(uri, success, failure);
     }
 };
+
+CachedImage.ImageCacheProvider = ImageCacheProvider;
 
 module.exports = CachedImage;
