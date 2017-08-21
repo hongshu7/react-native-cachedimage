@@ -122,7 +122,7 @@ const CachedImage = React.createClass({
             // try to get the image path from cache
             ImageCacheProvider.getCachedImagePath(url, options)
                 .then(cachedImagePath => {
-                    // image cached
+                    // image has cached
                     this.safeSetState({
                         isLoading: false,
                         isBreak: false,
@@ -132,6 +132,14 @@ const CachedImage = React.createClass({
                 .catch(() => {
                     // try to put the image in cache if not exists
                     ImageCacheProvider.cacheImage(url, options, this.props.resolveHeaders)
+                        .then(cachedImagePath => {
+                            // image downloaded and cached
+                            this.safeSetState({
+                                isLoading: false,
+                                isBreak: false,
+                                cachedImagePath
+                            });
+                        })
                         .catch(err => {
                             //console.log('cache image download failed:'+url);
                             this.safeSetState({
@@ -140,6 +148,7 @@ const CachedImage = React.createClass({
                                 cachedImagePath: null
                             });
                         })
+                       
                         .done();
                 })
                 .done();
