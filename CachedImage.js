@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const React = require('react');
 const ReactNative = require('react-native');
+const createReactClass = require('create-react-class');
 const flattenStyle = ReactNative.StyleSheet.flatten;
 const ImageCacheProvider = require('./ImageCacheProvider');
 const PropTypes = require('prop-types');
@@ -38,7 +39,7 @@ function getImageProps(props) {
 
 const CACHED_IMAGE_REF = 'cachedImage';
 
-const CachedImage = React.createClass({
+const CachedImage = createReactClass({
     propTypes: {
         renderImage: PropTypes.func.isRequired,
         activityIndicatorProps: PropTypes.object.isRequired,
