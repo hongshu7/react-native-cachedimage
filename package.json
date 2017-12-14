@@ -1,7 +1,7 @@
 {
   "name": "react-native-cachedimage",
   "main": "CachedImage.js",
-  "version": "0.1.6",
+  "version": "0.1.5",
   "author": {
     "name": "lhs168"
   },
@@ -29,7 +29,7 @@
     "cachedimage",
     "image"
   ],
-  "license": "MIT",
+  "license": "GPL",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }
